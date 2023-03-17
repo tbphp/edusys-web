@@ -4,10 +4,10 @@ import { TeacherServer } from '@/http/api'
 import { useRouter } from 'vue-router'
 import { SchoolStatus } from '@/utils/config'
 import { message } from 'ant-design-vue'
-import { useAppStore } from '@/store/modules/app'
+import { useSchoolStore } from '@/store/modules/school'
 
 const router = useRouter()
-const { setCurSchool } = useAppStore()
+const { setCurSchool } = useSchoolStore()
 const schoolList = ref<any[]>([])
 const pageNo = ref<number>(1)
 const total = ref<number>(0)

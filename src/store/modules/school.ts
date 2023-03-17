@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useAppStore = defineStore('app', () => {
+export const useSchoolStore = defineStore('app', () => {
 	const curSchool = ref<any>()
 	
 	function setCurSchool(data: any) {

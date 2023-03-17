@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/store/modules/app'
+import { useSchoolStore } from '@/store/modules/school'
 import { useUserStore } from '@/store/modules/user'
 import { useRoute } from 'vue-router'
 import { Identity } from '@/utils/config'
 
-const appStore = useAppStore()
-const { curSchool } = storeToRefs(appStore)
-const { setCurSchool } = appStore
+const schoolStore = useSchoolStore()
+const { curSchool } = storeToRefs(schoolStore)
+const { setCurSchool } = schoolStore
 const userStore = useUserStore()
 const { identity } = storeToRefs(userStore)
 const route = useRoute()
@@ -30,7 +30,7 @@ onUnmounted(() => {
 				<router-link :to="{ name: 'Teachers' }">教师列表</router-link>
 			</a-menu-item>
 		</a-menu>
-		<div>
+		<div class="flex-1 p-5">
 			<router-view></router-view>
 		</div>
 	</div>

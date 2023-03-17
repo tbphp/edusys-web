@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { pageTitle } from '@/utils/config'
 import { useUserStore } from '@/store/modules/user'
-import { useAppStore } from '@/store/modules/app'
+import { useSchoolStore } from '@/store/modules/school'
 import { storeToRefs } from 'pinia'
 
 const store = useUserStore()
-const { curSchool } = storeToRefs(useAppStore())
+const { curSchool } = storeToRefs(useSchoolStore())
 </script>
 
 <template>

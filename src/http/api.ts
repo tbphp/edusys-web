@@ -32,6 +32,11 @@ type MessageData = {
 	message: string
 }
 
+type ListQuery = {
+	page: number
+	per_page: number
+}
+
 /**
  * 基础接口
  */
@@ -52,7 +57,7 @@ export const TeacherServer = {
 	},
 
 	// 学校列表
-	getSchools(params) {
+	getSchools(params: ListQuery) {
 		return http.get('/teacher/schools', { params })
 	},
 
@@ -77,8 +82,8 @@ export const TeacherServer = {
 	},
 
 	// 学校老师列表
-	getTeachersOfSchool(id: IdType) {
-		return http.get(`/teacher/schools/${id}/teachers`)
+	getTeachersOfSchool(id: IdType, params: ListQuery) {
+		return http.get(`/teacher/schools/${id}/teachers`, { params })
 	},
 
 	// 邀请老师
@@ -92,8 +97,8 @@ export const TeacherServer = {
 	},
 
 	// 学生列表
-	getStudents(id: IdType) {
-		return http.get(`/teacher/schools/${id}/students`)
+	getStudents(id: IdType, params: ListQuery) {
+		return http.get(`/teacher/schools/${id}/students`, { params })
 	},
 
 	// 添加学生
@@ -117,8 +122,8 @@ export const TeacherServer = {
 	},
 
 	// 粉丝列表
-	getFans() {
-		return http.get('/teacher/fans')
+	getFans(params: ListQuery) {
+		return http.get('/teacher/fans', { params })
 	},
 
 	// 粉丝数量
@@ -142,8 +147,8 @@ export const StudentServer = {
 	},
 
 	// 老师列表
-	getTeachers() {
-		return http.get('/student/teachers')
+	getTeachers(params: ListQuery) {
+		return http.get('/student/teachers', { params })
 	},
 
 	// 关注老师
