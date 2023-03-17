@@ -4,10 +4,10 @@ import { TeacherServer } from '@/http/api'
 import { useRouter } from 'vue-router'
 import { SchoolStatus } from '@/utils/config'
 import { message } from 'ant-design-vue'
-import { appStore } from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 
 const router = useRouter()
-const { setCurSchool } = appStore()
+const { setCurSchool } = useAppStore()
 const schoolList = ref<any[]>([])
 const pageNo = ref<number>(1)
 const total = ref<number>(0)
@@ -36,7 +36,7 @@ function getSchoolList() {
 
 function enterSchool(item) {
 	setCurSchool(item)
-	router.push('/school/students')
+	router.push('/schoolDetail/students')
 }
 
 function changePage() {

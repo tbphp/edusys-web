@@ -3,12 +3,12 @@ import { ref } from 'vue'
 import LoginFormTeacher from '@/components/LoginForm.vue'
 import LoginFormStudent from '@/components/LoginForm.vue'
 import { useRouter } from 'vue-router'
-import { userStore } from '@/store/modules/user'
+import { useUserStore } from '@/store/modules/user'
 import { Identity, pageTitle } from '@/utils/config'
 import { AppServer } from '@/http/api'
 
 const router = useRouter()
-const store = userStore()
+const store = useUserStore()
 const loading = ref(false)
 const identity = ref(Identity.Teacher)
 const teacherFormRef = ref()

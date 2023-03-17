@@ -27,11 +27,11 @@ export const routes = [
 				component: () => import('@/views/Fan/index.vue')
 			},
 			{
-				path: 'schools/:id',
+				path: 'schoolDetail',
 				meta: {
 					roles: [Identity.Teacher, Identity.Student]
 				},
-				component: () => import('@/views/SchoolLayout/index.vue'),
+				component: () => import('@/views/SchoolDetail/index.vue'),
 				children: [
 					{
 						path: 'students',

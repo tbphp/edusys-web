@@ -1,9 +1,9 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'ant-design-vue'
-import { userStore } from '@/store/modules/user'
+import { useUserStore } from '@/store/modules/user'
 
-const store = userStore()
+const store = useUserStore()
 
 const http = axios.create({
 	baseURL: import.meta.env.VITE_API,

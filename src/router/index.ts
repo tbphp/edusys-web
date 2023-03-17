@@ -24,7 +24,7 @@ router.beforeEach((to, from, next) => {
 		if (token) {
 			const identity = Number(localStorage.getItem('identity'))
 			if (to.path === '/') {
-				next(identity == Identity.Teacher ? '/schools' : '/school/teachers')
+				next(identity == Identity.Teacher ? '/schools' : '/schoolDetail/teachers')
 			} else {
 				const roles = to.meta.roles as any[]
 				if (!roles || roles.includes(identity)) {

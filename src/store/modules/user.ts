@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const userStore = defineStore('user', () => {
+export const useUserStore = defineStore('user', () => {
 	const token = ref<string>(localStorage.getItem('token') || '')
 	const name = ref<string>(localStorage.getItem('name') || '')
 	const identity = ref<number>(0)
@@ -35,6 +35,7 @@ export const userStore = defineStore('user', () => {
 	return {
 		token,
 		name,
+		identity,
 		setLogin,
 		setIdentity,
 		logout

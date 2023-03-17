@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import { pageTitle } from '@/utils/config'
-import { userStore } from '@/store/modules/user'
-import { appStore } from '@/store/modules/app'
+import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 
-const store = userStore()
-const { curSchool } = storeToRefs(appStore())
+const store = useUserStore()
+const { curSchool } = storeToRefs(useAppStore())
 </script>
 
 <template>
 	<div class="h-12 bg-[#1e40af] text-white flex justify-between items-center px-5 absolute top-0 left-0 w-full z-10">
-		<h3 class="text-white m-0 flex items-center">
-			<span>{{ pageTitle }}</span>
-			<div v-if="curSchool">
-				<span>- {{ curSchool.name }}</span>
-				<a-button>返回学校列表</a-button>
+		<div class="text-white flex items-center">
+			<div class="text-base font-bold">{{ pageTitle }}</div>
+			<div class="text-xs ml-4" v-if="curSchool">
+				<router-link to="/schools" replace class="text-slate-400 hover:text-blue cursor-pointer">全部学校</router-link>
+				<span class="mx-1">/</span>
+				<span>{{ curSchool.name }}</span>
 			</div>
-		</h3>
+		</div>
 		<a-dropdown>
 			<span class="ant-dropdown-link cursor-pointer">
 				<user-outlined />
