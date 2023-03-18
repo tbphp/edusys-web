@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { TeacherServer } from '@/http/api'
 import { useRouter } from 'vue-router'
 import { SchoolStatus } from '@/utils/config'
@@ -36,7 +36,7 @@ function getSchoolList() {
 
 function enterSchool(item) {
 	setCurSchool(item)
-	router.push('/schoolDetail/students')
+	router.push(`/schools/${item.id}/students`)
 }
 
 function changePage() {

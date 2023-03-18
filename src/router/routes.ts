@@ -19,17 +19,10 @@ export const routes = [
 				component: () => import('@/views/School/index.vue')
 			},
 			{
-				path: 'fans',
-				name: 'Fans',
+				path: 'schools/:id',
+				name: 'SchoolDetail',
 				meta: {
 					roles: [Identity.Teacher]
-				},
-				component: () => import('@/views/Fan/index.vue')
-			},
-			{
-				path: 'schoolDetail',
-				meta: {
-					roles: [Identity.Teacher, Identity.Student]
 				},
 				component: () => import('@/views/SchoolDetail/index.vue'),
 				children: [
@@ -50,6 +43,22 @@ export const routes = [
 						component: () => import('@/views/Teacher/index.vue')
 					}
 				]
+			},
+			{
+				path: 'student',
+				name: 'Student',
+				meta: {
+					roles: [Identity.Student]
+				},
+				component: () => import('@/views/Teacher/index.vue')
+			},
+			{
+				path: 'fans',
+				name: 'Fans',
+				meta: {
+					roles: [Identity.Teacher]
+				},
+				component: () => import('@/views/Fan/index.vue')
 			}
 		]
 	},

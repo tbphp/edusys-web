@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia'
 import LineBtn from '@/components/LineBtn.vue'
 import { LineServer } from '@/http/api'
 import { message } from 'ant-design-vue'
+import { Identity } from '@/utils/config'
 
 const store = useUserStore()
 const { curSchool } = storeToRefs(useSchoolStore())
@@ -39,7 +40,7 @@ function unBind() {
 			</span>
 			<template #overlay>
 				<a-menu>
-					<a-menu-item>
+					<a-menu-item v-if="store.identity == Identity.Teacher">
 						<router-link to="/fans">粉丝列表</router-link>
 					</a-menu-item>
           <a-menu-item>

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import { useSchoolStore } from '@/store/modules/school'
-import { TeacherServer } from '@/http/api'
+import { TeacherServer, StudentServer } from '@/http/api'
 import { message } from 'ant-design-vue'
+import { Identity } from '@/utils/config'
 
 const { curSchool } = storeToRefs(useSchoolStore())
+const { identity } = storeToRefs(useUserStore())
 const list = ref<any[]>([])
 const listLoading = ref(false)
 const total = ref(0)
@@ -17,7 +20,7 @@ const columns = [
 	{ title: '邮箱', dataIndex: 'username', key: 'username' },
 	{ title: '创建时间', dataIndex: 'created_at', key: 'created_at' },
 	{ title: '最近更新', dataIndex: 'updated_at', key: 'updated_at' },
-	{ title: '操作', dataIndex: 'action', key: 'action' }
+	{ title: '操作', dataIndex: 'action', key: 'action', width: 180 }
 ]
 const formVisible = ref(false)
 const formLoading = ref(false)
@@ -32,13 +35,21 @@ getList()
 
 function getList() {
 	listLoading.value = true
-	TeacherServer.getTeachersOfSchool(curSchool.value.id, {
+	const data = {
 		page: pageNo.value,
 		per_page: pageSize
-	}).then((res: any) => {
-		list.value = res.list
-		total.value = res.total
-	}).finally(() => listLoading.value = false)
+	}
+	if (identity.value == Identity.Teacher) {
+		TeacherServer.getTeachersOfSchool(curSchool.value.id, data).then((res: any) => {
+			list.value = res.list
+			total.value = res.total
+		}).finally(() => listLoading.value = false)
+	} else {
+		StudentServer.getTeachers(data).then((res: any) => {
+			list.value = res.list
+			total.value = res.total
+		}).finally(() => listLoading.value = false)
+	}
 }
 
 function openForm() {
@@ -72,48 +83,65 @@ function removeTeacher(id) {
 	})
 }
 
+function handleFollow(item) {
+	item.is_followed = !item.is_followed
+	if (item.is_followed) {
+		StudentServer.followTeacher(item.id)
+	} else {
+		StudentServer.unfollowTeacher(item.id)
+	}
+}
+
 </script>
 
 <template>
-	<div>
-		<a-button type="primary" @click="openForm">
-			<template #icon><plus-outlined /></template>
-			邀请教师
-		</a-button>
+	<div :class="identity == Identity.Student ? 'p-5' : ''">
+		<div class="mb-5">
+			<a-button v-if="curSchool?.is_owner" type="primary" @click="openForm">
+				<template #icon><plus-outlined /></template>
+				邀请教师
+			</a-button>
+			<p v-else class="text-lg font-bold">教师列表</p>
+		</div>
+		<a-table
+			:dataSource="list"
+			:columns="columns"
+			:loading="listLoading"
+			:pagination="{
+				position: ['bottomCenter'],
+				current: pageNo,
+				hideOnSinglePage: true,
+				pageSize: pageSize,
+				total: total,
+				onChange: changePage
+			}"
+		>
+			<template #bodyCell="{ column, record }">
+				<template v-if="column.key === 'created_at'">
+					<span v-time>{{ record.created_at }}</span>
+				</template>
+				<template v-if="column.key === 'updated_at'">
+					<span v-time>{{ record.updated_at }}</span>
+				</template>
+				<div class="actions" v-if="column.key === 'action'">
+					<a-popconfirm
+						v-if="identity == Identity.Teacher"
+						title="确定要移除该教师吗?"
+						ok-text="移除"
+						cancel-text="取消"
+						@confirm="removeTeacher(record.id)"
+					>
+						<a class="red" href="#">移除</a>
+					</a-popconfirm>
+					<span v-else>
+						<a href="#" @click="handleFollow(record)">{{ record.is_followed ? '取消关注' : '关注' }}</a>
+						<a v-if="record" href="#">聊天</a>
+					</span>
+				</div>
+			</template>
+		</a-table>
 	</div>
-	<a-table
-		class="mt-5"
-		:dataSource="list"
-		:columns="columns"
-		:loading="listLoading"
-		:pagination="{
-			position: ['bottomCenter'],
-			current: pageNo,
-			hideOnSinglePage: true,
-			pageSize: pageSize,
-			total: total,
-			onChange: changePage
-		}"
-	>
-		<template #bodyCell="{ column, record }">
-			<template v-if="column.key === 'created_at'">
-				<span v-time>{{ record.created_at }}</span>
-			</template>
-			<template v-if="column.key === 'updated_at'">
-				<span v-time>{{ record.updated_at }}</span>
-			</template>
-			<div class="actions" v-if="column.key === 'action'">
-				<a-popconfirm
-					title="确定要移除该教师吗?"
-					ok-text="移除"
-					cancel-text="取消"
-					@confirm="removeTeacher(record.id)"
-				>
-					<a class="red" href="#">移除</a>
-				</a-popconfirm>
-			</div>
-		</template>
-	</a-table>
+	
 	<a-modal
 		v-model:visible="formVisible"
 		title="邀请教师"

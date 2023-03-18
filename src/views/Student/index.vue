@@ -16,9 +16,11 @@ const columns = [
 	{ title: '姓名', dataIndex: 'name', key: 'name' },
 	{ title: '账号', dataIndex: 'username', key: 'username' },
 	{ title: '创建时间', dataIndex: 'created_at', key: 'created_at' },
-	{ title: '最近更新', dataIndex: 'updated_at', key: 'updated_at' },
-	{ title: '操作', dataIndex: 'action', key: 'action' }
+	{ title: '最近更新', dataIndex: 'updated_at', key: 'updated_at' }
 ]
+if (curSchool.value.is_owner) {
+	columns.push({ title: '操作', dataIndex: 'action', key: 'action' })
+}
 const formVisible = ref(false)
 const formLoading = ref(false)
 const form = reactive({
@@ -112,14 +114,14 @@ function delStudent(id) {
 </script>
 
 <template>
-	<div>
-		<a-button type="primary" @click="openForm">
+	<div class="mb-5">
+		<a-button v-if="curSchool.is_owner" type="primary" @click="openForm">
 			<template #icon><plus-outlined /></template>
 			添加学生
 		</a-button>
+		<p v-else class="text-lg font-bold">学生列表</p>
 	</div>
 	<a-table
-		class="mt-5"
 		:dataSource="list"
 		:columns="columns"
 		:loading="listLoading"
