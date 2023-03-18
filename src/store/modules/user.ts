@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', () => {
 		userId.value = data.id
 		localStorage.setItem('token', token.value)
 		localStorage.setItem('name', name.value)
-		localStorage.setItem('userId', userId.value)
+		localStorage.setItem('userId', userId.value.toString())
 		setBindLine(data.bind_line)
 	}
 
@@ -54,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
 		token,
 		name,
 		identity,
+		userId,
 		bindHash,
 		bindLine,
 		setLogin,
