@@ -22,7 +22,10 @@ onUnmounted(() => {
 
 <template>
 	<div v-if="curSchool" class="h-full flex justify-between items-start">
-		<a-menu v-if="identity == Identity.Teacher" class="w-56 h-full" v-model:selectedKeys="curMenu">
+		<div class="flex-1 p-5" :class="identity == Identity.Teacher ? 'pl-[244px]' : ''">
+			<router-view></router-view>
+		</div>
+		<a-menu v-if="identity == Identity.Teacher" class="w-56 h-full absolute left-0 top-0 pt-[48px]" v-model:selectedKeys="curMenu">
 			<a-menu-item key="Students">
 				<router-link :to="{ name: 'Students' }">学生列表</router-link>
 			</a-menu-item>
@@ -30,9 +33,6 @@ onUnmounted(() => {
 				<router-link :to="{ name: 'Teachers' }">教师列表</router-link>
 			</a-menu-item>
 		</a-menu>
-		<div class="flex-1 p-5">
-			<router-view></router-view>
-		</div>
 	</div>
 	<div v-else>
 		<a-empty>

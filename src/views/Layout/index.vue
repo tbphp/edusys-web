@@ -6,7 +6,9 @@ import PageHeader from '@/components/PageHeader.vue'
 	<div class="h-full bg-slate-100">
 		<page-header />
 		<div class="h-full pt-12">
-			<router-view></router-view>
+			<div class="h-full overflow-auto">
+				<router-view></router-view>
+			</div>
 		</div>
 	</div>
 </template>

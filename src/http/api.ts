@@ -24,6 +24,7 @@ type InviteTeacherData = {
 
 type StudentData = {
 	name: string
+	username?: string
 }
 
 type MessageData = {
@@ -116,8 +117,8 @@ export const TeacherServer = {
 	},
 
 	// 添加学生
-	addStudent(id: IdType) {
-		return http.post(`/teacher/schools/${id}/students`)
+	addStudent(id: IdType, data: StudentData) {
+		return http.post(`/teacher/schools/${id}/students`, data)
 	},
 
 	// 修改学生
