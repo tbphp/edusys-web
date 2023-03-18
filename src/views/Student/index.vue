@@ -58,7 +58,7 @@ function openForm(item) {
 }
 
 function submitForm() {
-	if (formLoading.value) return
+	if (formLoading.value || !form.name || !form.username) return
 	return new Promise((resolve, reject) => {
 		formLoading.value = true
 		if (editId.value) {

@@ -107,8 +107,8 @@ export const TeacherServer = {
 	},
 
 	// 移除老师
-	removeTeacher(id: IdType) {
-		return http.delete(`/teacher/schools/{school_id}/teachers/${id}`)
+	removeTeacher(schoolId: IdType, id: IdType) {
+		return http.delete(`/teacher/schools/${schoolId}/teachers/${id}`)
 	},
 
 	// 学生列表
