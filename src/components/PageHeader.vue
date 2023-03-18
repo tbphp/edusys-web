@@ -4,9 +4,21 @@ import { useUserStore } from '@/store/modules/user'
 import { useSchoolStore } from '@/store/modules/school'
 import { storeToRefs } from 'pinia'
 import LineBtn from '@/components/LineBtn.vue'
+import { LineServer } from '@/http/api'
+import { message } from 'ant-design-vue'
 
 const store = useUserStore()
 const { curSchool } = storeToRefs(useSchoolStore())
+
+function unBind() {
+  LineServer.unBind({
+    identity: store.identity
+  }).then(() => {
+    message.success('解绑成功')
+    store.setBindLine(false)
+  })
+}
+
 </script>
 
 <template>
@@ -32,7 +44,9 @@ const { curSchool } = storeToRefs(useSchoolStore())
 					</a-menu-item>
           <a-menu-item>
             <line-btn is-text v-if="!store.bindLine" />
-            <span v-else>解绑Line</span>
+            <a-popconfirm v-else title="解绑之后将不可使用Line账号登录，确定解绑吗？" ok-text="确定" cancel-text="取消" @confirm="unBind">
+              <span>解绑Line</span>
+            </a-popconfirm>
           </a-menu-item>
 					<a-menu-item>
 						<span @click="store.logout()">退出登录</span>

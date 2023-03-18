@@ -47,6 +47,10 @@ type LineBindData = {
 	identity: any
 }
 
+type LineUnBindData = {
+	identity: any
+}
+
 /**
  * 基础接口
  */
@@ -189,5 +193,10 @@ export const LineServer = {
 	// 绑定
 	bind(data: LineBindData) {
 		return http.put('/line/bind', data)
+	},
+
+	// 解绑
+	unBind(data: LineUnBindData) {
+		return http.put('/line/unbind', data)
 	}
 }

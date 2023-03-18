@@ -10,7 +10,6 @@ const route = useRoute()
 const router = useRouter()
 const query = route.query
 const tokenList = ref<any[]>([])
-const listLoading = ref(false)
 const store = useUserStore()
 
 handle()
@@ -32,7 +31,6 @@ function handle() {
 }
 
 function login() {
-  listLoading.value = true
   LineServer.login({
     code: query.code
   }).then((res: any) => {
@@ -50,7 +48,6 @@ function login() {
         break
     }
   }).catch(() => router.push('/login'))
-    .finally(() => listLoading.value = false)
 }
 
 function bind() {
@@ -60,6 +57,7 @@ function bind() {
     hash: null
   }).then(() => {
     message.success('绑定Line账号成功')
+    store.setBindLine(true)
   }).catch(() => {
     message.error('绑定失败，请退出重试')
   }).finally(() => router.replace('/'))
@@ -77,7 +75,7 @@ function loginByToken(token) {
 <template>
   <div class="h-full bg-[#f0f2f5]">
     <div class="pt-[112px] pb-[24px] w-[1200px] mx-auto">
-      <div class="text-center mt-10" v-show="listLoading">
+      <div class="text-center mt-10" v-show="tokenList.length === 0">
         <a-spin size="large" />
       </div>
       <div v-show="tokenList.length > 0">

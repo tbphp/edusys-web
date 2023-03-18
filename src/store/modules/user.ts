@@ -17,15 +17,19 @@ export const useUserStore = defineStore('user', () => {
 		if (!data) return
 		token.value = `Bearer ${data.access_token}`
 		name.value = data.name
-		bindLine.value = data.bind_line
 		localStorage.setItem('token', token.value)
 		localStorage.setItem('name', name.value)
-		localStorage.setItem('bind_line', data.bind_line ? '1' : '0')
+		setBindLine(data.bind_line)
 	}
 
 	function setIdentity(val) {
 		identity.value = typeof val === 'number' ? val : Number(val)
 		localStorage.setItem('identity', val)
+	}
+
+	function setBindLine(val) {
+		bindLine.value = Boolean(val)
+		localStorage.setItem('bind_line', val ? '1' : '0')
 	}
 
 	function logout() {
@@ -47,6 +51,7 @@ export const useUserStore = defineStore('user', () => {
 		bindLine,
 		setLogin,
 		setIdentity,
+		setBindLine,
 		logout
 	}
 })
