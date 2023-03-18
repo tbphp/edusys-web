@@ -5,6 +5,7 @@ import { Identity } from '@/utils/config'
 const whiteList = [
 	'/login',
 	'/register',
+	'/line-login',
 	'/403',
 	'/404'
 ]

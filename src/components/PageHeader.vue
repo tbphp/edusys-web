@@ -3,6 +3,7 @@ import { pageTitle } from '@/utils/config'
 import { useUserStore } from '@/store/modules/user'
 import { useSchoolStore } from '@/store/modules/school'
 import { storeToRefs } from 'pinia'
+import LineBtn from '@/components/LineBtn.vue'
 
 const store = useUserStore()
 const { curSchool } = storeToRefs(useSchoolStore())
@@ -29,6 +30,10 @@ const { curSchool } = storeToRefs(useSchoolStore())
 					<a-menu-item>
 						<router-link to="/fans">粉丝列表</router-link>
 					</a-menu-item>
+          <a-menu-item>
+            <line-btn is-text v-if="!store.bindLine" />
+            <span v-else>解绑Line</span>
+          </a-menu-item>
 					<a-menu-item>
 						<span @click="store.logout()">退出登录</span>
 					</a-menu-item>

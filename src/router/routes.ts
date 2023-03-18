@@ -64,6 +64,11 @@ export const routes = [
 		component: () => import('@/views/Register/index.vue')
 	},
 	{
+		path: '/line-login',
+		name: 'LineLogin',
+		component: () => import('@/views/Line/login.vue')
+	},
+	{
 		path: '/403',
 		name: '403',
 		component: () => import('@/views/403.vue')
@@ -73,7 +78,7 @@ export const routes = [
 		name: '404',
 		component: () => import('@/views/404.vue')
 	},
-	{ 
+	{
 		path: '/:pathMatch(.*)*',
 		redirect: '/404'
 	}

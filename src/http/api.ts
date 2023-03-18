@@ -37,6 +37,16 @@ type ListQuery = {
 	per_page: number
 }
 
+type LineLoginData = {
+	code: any
+}
+
+type LineBindData = {
+	hash: any,
+	code: any,
+	identity: any
+}
+
 /**
  * 基础接口
  */
@@ -164,5 +174,20 @@ export const StudentServer = {
 	// 发送消息
 	sendMessages(data: MessageData) {
 		return http.post('/student/messages', data)
+	}
+}
+
+/**
+ * Line相关
+ */
+export const LineServer = {
+	// 登陆
+	login(data: LineLoginData) {
+		return http.post('/line/login', data)
+	},
+
+	// 绑定
+	bind(data: LineBindData) {
+		return http.put('/line/bind', data)
 	}
 }

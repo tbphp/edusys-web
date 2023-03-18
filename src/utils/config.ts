@@ -1,4 +1,4 @@
-export const pageTitle = '教务管理系统'
+export const pageTitle = 'Edu Sys'
 
 export enum Identity {
 	Teacher = 1,
