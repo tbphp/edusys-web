@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSchoolStore } from '@/store/modules/school'
 import { TeacherServer } from '@/http/api'
-import { notification } from 'ant-design-vue'
+import { notification, message } from 'ant-design-vue'
 
 const { curSchool } = storeToRefs(useSchoolStore())
 const list = ref<any[]>([])
@@ -62,7 +62,7 @@ function submitForm() {
 	return new Promise((resolve, reject) => {
 		formLoading.value = true
 		if (editId.value) {
-			TeacherServer.editStudent(editId.value, {
+			TeacherServer.editStudent(curSchool.value.id, editId.value, {
 				name: form.name
 			}).then(() => {
 				formVisible.value = false
@@ -89,6 +89,24 @@ function submitForm() {
 function changePage(e) {
 	pageNo.value = e
 	getStudentList()
+}
+
+function resetPsw(id) {
+	TeacherServer.resetPasswordOfStudent(curSchool.value.id, id).then((res: any) => {
+		if (res.password) {
+			notification.success({
+				message: '学生密码修改成功',
+				description: `该学生登录密码修改为：${res.password}，请复制保存发送给学生~`
+			})
+		}
+	})
+}
+
+function delStudent(id) {
+	TeacherServer.deleteStudent(curSchool.value.id, id).then(() => {
+		message.success('删除成功')
+		getStudentList()
+	})
 }
 
 </script>
@@ -122,10 +140,24 @@ function changePage(e) {
 				<span v-time>{{ record.updated_at }}</span>
 			</template>
 			<div class="actions" v-if="column.key === 'action'">
-				<a @click="openForm(record)">编辑</a>
-				<a>重置密码</a>
-				<a>聊天</a>
-				<a class="red">删除</a>
+				<a href="#" @click="openForm(record)">编辑</a>
+				<a-popconfirm
+					title="确定要重置密码?"
+					ok-text="重置"
+					cancel-text="取消"
+					@confirm="resetPsw(record.id)"
+				>
+					<a href="#">重置密码</a>
+				</a-popconfirm>
+				<a href="#">聊天</a>
+				<a-popconfirm
+					title="确定要删除该学生吗?"
+					ok-text="删除"
+					cancel-text="取消"
+					@confirm="delStudent(record.id)"
+				>
+					<a class="red" href="#">删除</a>
+				</a-popconfirm>
 			</div>
 		</template>
 	</a-table>

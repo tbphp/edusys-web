@@ -122,8 +122,8 @@ export const TeacherServer = {
 	},
 
 	// 修改学生
-	editStudent(id: IdType, data: StudentData) {
-		return http.post(`/teacher/schools/${id}/students/{student_id}`, data)
+	editStudent(schoolId: IdType, studentId: IdType, data: StudentData) {
+		return http.put(`/teacher/schools/${schoolId}/students/${studentId}`, data)
 	},
 
 	// 删除学生
