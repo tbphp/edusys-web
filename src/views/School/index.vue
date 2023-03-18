@@ -98,7 +98,7 @@ function deleteSchool(id) {
 							<UserOutlined />
 							<span>管理员</span>
 						</a-tag>
-						<div class="absolute right-1 top-1 w-auto">
+						<div class="absolute right-1 top-1 w-auto" v-if="item.is_owner">
 							<form-outlined v-if="item.status == SchoolStatus.Normal" class="cursor-pointer text-white text-lg" @click="openSchoolForm(item)" />
 							<a-popconfirm
 								title="确定要删除该学校吗?"

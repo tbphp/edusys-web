@@ -27,8 +27,10 @@ function unBind() {
 		<div class="text-white flex items-center">
 			<div class="text-base font-bold">{{ pageTitle }}</div>
 			<div class="text-xs ml-4" v-if="curSchool">
-				<router-link to="/schools" replace class="text-slate-400 hover:text-blue cursor-pointer">全部学校</router-link>
-				<span class="mx-1">/</span>
+				<template v-if="store.identity == Identity.Teacher">
+					<router-link to="/schools" replace class="text-slate-400 hover:text-blue cursor-pointer">全部学校</router-link>
+					<span class="mx-1">/</span>
+				</template>
 				<span>{{ curSchool.name }}</span>
 			</div>
 		</div>

@@ -6,8 +6,12 @@ import { useSchoolStore } from '@/store/modules/school'
 import { TeacherServer, StudentServer } from '@/http/api'
 import { message } from 'ant-design-vue'
 import { Identity } from '@/utils/config'
+import { useRoute } from 'vue-router'
 
-const { curSchool } = storeToRefs(useSchoolStore())
+const route = useRoute()
+const schoolStore = useSchoolStore()
+const { curSchool } = storeToRefs(schoolStore)
+const { setCurSchool } = schoolStore
 const { identity } = storeToRefs(useUserStore())
 const list = ref<any[]>([])
 const listLoading = ref(false)
@@ -31,6 +35,7 @@ const rules = {
 	username: [{ required: true, message: '邮箱必填' }]
 }
 
+getSchoolOfStudent()
 getList()
 
 function getList() {
@@ -89,6 +94,15 @@ function handleFollow(item) {
 		StudentServer.followTeacher(item.id)
 	} else {
 		StudentServer.unfollowTeacher(item.id)
+	}
+}
+
+function getSchoolOfStudent() {
+	const routeName = route.name
+	if (routeName === 'Student' && !curSchool.value) {
+		StudentServer.getSchoolDetail().then((res: any) => {
+			setCurSchool(res)
+		})
 	}
 }
 
