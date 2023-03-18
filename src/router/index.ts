@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from './routes'
 import { Identity } from '@/utils/config'
+import { useUserStore } from '@/store/modules/user'
 
 const whiteList = [
 	'/login',
@@ -21,9 +22,10 @@ router.beforeEach((to, from, next) => {
 	if (whiteList.includes(to.path)) {
 		next()
 	} else {
-		const token = localStorage.getItem('token')
+		const store = useUserStore()
+		const token = store.token
 		if (token) {
-			const identity = Number(localStorage.getItem('identity'))
+			const identity = store.identity
 			if (to.path === '/') {
 				next(identity == Identity.Teacher ? '/schools' : '/student')
 			} else {

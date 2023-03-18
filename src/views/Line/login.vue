@@ -22,8 +22,7 @@ function handle() {
     return
   }
 
-  const token = localStorage.getItem('token')
-  if (token) {
+  if (store.token) {
     bind()
   } else {
     login()
