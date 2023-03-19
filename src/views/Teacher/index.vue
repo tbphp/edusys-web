@@ -14,7 +14,7 @@ const schoolStore = useSchoolStore()
 const chatStore = useChatStore()
 const { curSchool } = storeToRefs(schoolStore)
 const { setCurSchool } = schoolStore
-const { identity } = storeToRefs(useUserStore())
+const { identity, userId } = storeToRefs(useUserStore())
 const list = ref<any[]>([])
 const listLoading = ref(false)
 const total = ref(0)
@@ -148,15 +148,17 @@ function newChat(item) {
 					<span v-time>{{ record.updated_at }}</span>
 				</template>
 				<div class="actions" v-if="column.key === 'action'">
-					<a-popconfirm
-						v-if="identity == Identity.Teacher"
-						title="确定要移除该教师吗?"
-						ok-text="移除"
-						cancel-text="取消"
-						@confirm="removeTeacher(record.id)"
-					>
-						<a class="red" href="#">移除</a>
-					</a-popconfirm>
+					<template v-if="identity == Identity.Teacher">
+						<a-popconfirm
+							v-if="record.id !== userId"
+							title="确定要移除该教师吗?"
+							ok-text="移除"
+							cancel-text="取消"
+							@confirm="removeTeacher(record.id)"
+						>
+							<a class="red" href="#">移除</a>
+						</a-popconfirm>
+					</template>
 					<span v-else>
 						<a href="#" @click="handleFollow(record)">{{ record.is_followed ? '取消关注' : '关注' }}</a>
 						<a v-if="record" href="#" @click="newChat(record)">聊天</a>
