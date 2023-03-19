@@ -48,23 +48,6 @@ export const useChatStore = defineStore(`msgdata-${myKey}`, () => {
 
   const activeKey = ref<string>('')
 
-  // 监听标记已读
-  watch([activeKey, showBox], ([key, show]) => {
-    if (messageStore[key] && show && messageStore[key].unread) {
-      messageStore[key].unread = false
-      let isNew = false
-      for (const k in messageStore) {
-        if (messageStore[k].unread) {
-          isNew = true
-          break
-        }
-      }
-      if (!isNew) {
-        hasNew.value = false
-      }
-    }
-  })
-
   function addSession(key: string, user: User) {
     if (messageStore[key]) {
       return

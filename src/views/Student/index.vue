@@ -162,7 +162,7 @@ function newChat(item) {
 				>
 					<a href="#">重置密码</a>
 				</a-popconfirm>
-				<a v-if="record.is_owner" href="#" @click="newChat(record)">聊天</a>
+				<a href="#" @click="newChat(record)">聊天</a>
 				<a-popconfirm
 					title="确定要删除该学生吗?"
 					ok-text="删除"

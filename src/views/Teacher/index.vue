@@ -161,7 +161,7 @@ function newChat(item) {
 					</template>
 					<span v-else>
 						<a href="#" @click="handleFollow(record)">{{ record.is_followed ? '取消关注' : '关注' }}</a>
-						<a v-if="record" href="#" @click="newChat(record)">聊天</a>
+						<a v-if="record.is_owner" href="#" @click="newChat(record)">聊天</a>
 					</span>
 				</div>
 			</template>

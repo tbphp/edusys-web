@@ -95,6 +95,9 @@ function sendMsg() {
 const msgRefs = {}
 
 function setupMsgMain(key, el) {
+  if (msgRefs.hasOwnProperty(key)) {
+    return
+  }
   msgRefs[key] = el
 }
 
@@ -102,11 +105,37 @@ function setupMsgMain(key, el) {
 watch(chatStore.messageStore, () => {
   if (showBox.value) {
     nextTick(() => {
-      msgRefs[activeKey.value].lastElementChild.scrollIntoView()
+      if (msgRefs.hasOwnProperty(activeKey.value) && msgRefs[activeKey.value].lastElementChild) {
+        msgRefs[activeKey.value].lastElementChild.scrollIntoView()
+      }
     })
   }
 })
 
+// 监听标记已读
+watch([activeKey, showBox], ([key, show]) => {
+  if (chatStore.messageStore[key] && show && chatStore.messageStore[key].unread) {
+    chatStore.messageStore[key].unread = false
+    let isNew = false
+    for (const k in chatStore.messageStore) {
+      if (chatStore.messageStore[k].unread) {
+        isNew = true
+        break
+      }
+    }
+    if (!isNew) {
+      hasNew.value = false
+    }
+  }
+
+  if (show) {
+    nextTick(() => {
+      if (msgRefs.hasOwnProperty(key) && msgRefs[key].lastElementChild) {
+        msgRefs[key].lastElementChild.scrollIntoView()
+      }
+    })
+  }
+})
 
 </script>
 
