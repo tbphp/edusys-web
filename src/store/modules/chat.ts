@@ -50,7 +50,7 @@ export const useChatStore = defineStore(`msgdata-${myKey}`, () => {
 
   // 监听标记已读
   watch([activeKey, showBox], ([key, show]) => {
-    if (show && messageStore[key].unread) {
+    if (messageStore[key] && show && messageStore[key].unread) {
       messageStore[key].unread = false
       let isNew = false
       for (const k in messageStore) {
