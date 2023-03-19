@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TeacherServer } from '@/http/api'
+import { useChatStore } from '@/store/modules/chat'
+import { Identity } from '@/utils/config'
 
+const chatStore = useChatStore()
 const list = ref<any[]>([])
 const columns = [
 	{ title: 'ID', dataIndex: 'id', key: 'id' },
@@ -35,6 +38,14 @@ function changePage(e) {
 	getList()
 }
 
+function newChat(item) {
+  chatStore.openNewSession({
+    identity: Identity.Student,
+    id: item.id,
+    name: item.name
+  })
+}
+
 </script>
 
 <template>
@@ -61,7 +72,7 @@ function changePage(e) {
 					<span v-time>{{ record.updated_at }}</span>
 				</template>
 				<div class="actions" v-if="column.key === 'action'">
-					<a href="#">聊天</a>
+					<a href="#" @click="newChat(record)">聊天</a>
 				</div>
 			</template>
 		</a-table>

@@ -9,7 +9,6 @@ export const useUserStore = defineStore('user', () => {
 	const bindHash = ref<string>('')
 	const bindLine = ref<boolean>(false)
 
-
 	function setLogin(data) {
 		if (!data) return
 		token.value = `Bearer ${data.access_token}`
@@ -48,6 +47,6 @@ export const useUserStore = defineStore('user', () => {
 	}
 }, {
 	persist: [
-		{ paths: ['token', 'name', 'identity', 'userId', 'bindHash', 'bindLine'], storage: localStorage }
+		{ paths: ['token', 'name', 'identity', 'userId', 'bindLine'], storage: localStorage }
 	]
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
+import ChatBox from '@/components/ChatBox.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import PageHeader from '@/components/PageHeader.vue'
 			<div class="h-full overflow-auto">
 				<router-view></router-view>
 			</div>
+      <chat-box />
 		</div>
 	</div>
 </template>

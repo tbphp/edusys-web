@@ -7,9 +7,11 @@ import { TeacherServer, StudentServer } from '@/http/api'
 import { message } from 'ant-design-vue'
 import { Identity } from '@/utils/config'
 import { useRoute } from 'vue-router'
+import { useChatStore } from '@/store/modules/chat'
 
 const route = useRoute()
 const schoolStore = useSchoolStore()
+const chatStore = useChatStore()
 const { curSchool } = storeToRefs(schoolStore)
 const { setCurSchool } = schoolStore
 const { identity } = storeToRefs(useUserStore())
@@ -106,6 +108,14 @@ function getSchoolOfStudent() {
 	}
 }
 
+function newChat(item) {
+  chatStore.openNewSession({
+    identity: Identity.Teacher,
+    id: item.id,
+    name: item.name
+  })
+}
+
 </script>
 
 <template>
@@ -149,13 +159,13 @@ function getSchoolOfStudent() {
 					</a-popconfirm>
 					<span v-else>
 						<a href="#" @click="handleFollow(record)">{{ record.is_followed ? '取消关注' : '关注' }}</a>
-						<a v-if="record" href="#">聊天</a>
+						<a v-if="record" href="#" @click="newChat(record)">聊天</a>
 					</span>
 				</div>
 			</template>
 		</a-table>
 	</div>
-	
+
 	<a-modal
 		v-model:visible="formVisible"
 		title="邀请教师"

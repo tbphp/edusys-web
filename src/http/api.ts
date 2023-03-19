@@ -28,7 +28,7 @@ type StudentData = {
 }
 
 type MessageData = {
-	identity: 1 | 2
+	identity: any
 	user_id: number
 	message: string
 }

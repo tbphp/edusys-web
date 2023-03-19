@@ -4,8 +4,11 @@ import { storeToRefs } from 'pinia'
 import { useSchoolStore } from '@/store/modules/school'
 import { TeacherServer } from '@/http/api'
 import { notification, message } from 'ant-design-vue'
+import { useChatStore } from '@/store/modules/chat'
+import { Identity } from '@/utils/config'
 
 const { curSchool } = storeToRefs(useSchoolStore())
+const chatStore = useChatStore()
 const list = ref<any[]>([])
 const listLoading = ref(false)
 const total = ref(0)
@@ -111,6 +114,14 @@ function delStudent(id) {
 	})
 }
 
+function newChat(item) {
+  chatStore.openNewSession({
+    identity: Identity.Student,
+    id: item.id,
+    name: item.name
+  })
+}
+
 </script>
 
 <template>
@@ -151,7 +162,7 @@ function delStudent(id) {
 				>
 					<a href="#">重置密码</a>
 				</a-popconfirm>
-				<a href="#">聊天</a>
+				<a href="#" @click="newChat(record)">聊天</a>
 				<a-popconfirm
 					title="确定要删除该学生吗?"
 					ok-text="删除"
